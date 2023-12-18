@@ -96,3 +96,28 @@ dz_dx_chain = (dy_dx * dz_dy).subs(y,_y)
 dz_dx_no_chain = (diff(z.subs(y,_y)))
 print(f"x: {x}, y: {y}, _: {_y}, z: {x}, dy_dx:{dy_dx}, dz_dy:{dz_dy},  dz_dx_chain:{dz_dx_chain}, dz_dx_no_chain:{dz_dx_no_chain}")
 plot3d(_y,z,dy_dx,dz_dy)
+
+#### integration pg 38
+#### Calculating the integral of a function, by using reiman sums, that whose width aproach 1/oo
+
+# function being integrated
+x, i, n = symbols('x i n')
+f = x**2 + 1
+lower, upper = 0,1
+
+
+def rect_area(f, x ,n):
+    # This is the width of an individual triangle, 
+    # (its size is inversly related to the number of rectangles along whole rang)
+    delta_x = ((upper-lower)/n)
+    ## where this rectangle starts
+    x_i = (lower + delta_x * i)
+    fx_i = f.subs(x, x_i)
+    return delta_x * fx_i
+
+n_rectangles = Sum( rect_area(f,x,n), (i,1,n)).doit()
+print(n_rectangles)
+plot3d(n_rectangles)
+### while for practical purpose oo and 1000 return approximatly the same real number 4/3 (with verying degress of precision), people often want the rational 4/3
+t_area = limit(n_rectangles, n, oo)
+print(t_area)
